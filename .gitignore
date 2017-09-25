@@ -14,3 +14,11 @@ gradle-app.setting
 # gradle/wrapper/gradle-wrapper.properties
 .idea/workspace.xml
 .idea/misc.xml
+sandbox/.idea/compiler.xml
+sandbox/.idea/gradle.xml
+sandbox/.idea/misc.xml
+sandbox/.idea/modules.xml
+sandbox/.idea/modules/sandbox_main.iml
+sandbox/.idea/modules/sandbox_test.iml
+sandbox/.idea/workspace.xml
+sandbox/sandbox.iml
