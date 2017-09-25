@@ -22,3 +22,7 @@ sandbox/.idea/modules/sandbox_main.iml
 sandbox/.idea/modules/sandbox_test.iml
 sandbox/.idea/workspace.xml
 sandbox/sandbox.iml
+Point/gradle/wrapper/gradle-wrapper.jar
+Point/gradle/wrapper/gradle-wrapper.properties
+Point/gradlew
+Point/gradlew.bat
