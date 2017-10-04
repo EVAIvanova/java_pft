@@ -26,3 +26,4 @@ Point/gradle/wrapper/gradle-wrapper.jar
 Point/gradle/wrapper/gradle-wrapper.properties
 Point/gradlew
 Point/gradlew.bat
+addressbook-web-tests/src/test/java/ru/stqa/pft/addressbook/ContactCreationTests
