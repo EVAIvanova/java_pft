@@ -36,12 +36,12 @@ public class ContactCreationTests {
 
     wd.findElement(By.linkText("HOME")).click();
     gotoNewContactCreationPage();
-    ContactsForm(new Contacts("Dr of Ph", "OSEU", "Lvovskaya Street, 15", "7472304", "0966514669", "skyLena1@ya.ru", "EVIvanovaRP@ya.ru", "Lvovskaya Street, 15b", "7472304"));
+    ContactsForm(new Contacts("Elena","Vasilievna","Voskresenskaya","Dr of Ph", "OSEU", "Lvovskaya Street, 15", "7472304", "0966514669", "skyLena1@ya.ru", "EVIvanovaRP@ya.ru", "Lvovskaya Street, 15b", "7472304"));
     submitCreationContact();
   }
 
   private void ContactsForm(Contacts contact) {
-    fillFMLForm(new FMLname("Elena", "Vasilievna", "Voskresenskaya"));
+    fillFMLForm (contact.getFirstname(),contact.getMiddlename(),contact.getLastname());
     fillTitleForm(contact.getDr_of_ph());
     fillCompanyForm(contact.getOseu());
     fillAddressForm(contact.getAddress());
@@ -124,16 +124,16 @@ public class ContactCreationTests {
     wd.findElement(By.name("title")).sendKeys(title);
   }
 
-  private void fillFMLForm(FMLname FMLname) {
+  private void fillFMLForm(String firstname,String middlename, String lastname) {
     wd.findElement(By.name("firstname")).click();
     wd.findElement(By.name("firstname")).clear();
-    wd.findElement(By.name("firstname")).sendKeys(FMLname.getFirstname());
+    wd.findElement(By.name("firstname")).sendKeys(firstname);
     wd.findElement(By.name("middlename")).click();
     wd.findElement(By.name("middlename")).clear();
-    wd.findElement(By.name("middlename")).sendKeys(FMLname.getMiddlename());
+    wd.findElement(By.name("middlename")).sendKeys(middlename);
     wd.findElement(By.name("lastname")).click();
     wd.findElement(By.name("lastname")).clear();
-    wd.findElement(By.name("lastname")).sendKeys(FMLname.getLastname());
+    wd.findElement(By.name("lastname")).sendKeys(lastname);
   }
 
   private void gotoNewContactCreationPage() {
