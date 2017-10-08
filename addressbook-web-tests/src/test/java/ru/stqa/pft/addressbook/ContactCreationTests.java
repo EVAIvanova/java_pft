@@ -36,18 +36,22 @@ public class ContactCreationTests {
 
     wd.findElement(By.linkText("HOME")).click();
     gotoNewContactCreationPage();
-    fillFMLForm(new FMLname("Elena", "Vasilievna", "Voskresenskaya"));
-    fillTitleForm("Dr of Ph");
-    fillCompanyForm("OSEU");
-    fillAddressForm("Lvovskaya Street, 15");
-    fillHomePhoneForm("7472304");
-    fillMobileForm("0966514669");
-    fillEmailForm("skyLena1@ya.ru");
-    fillEmail2Form("EVIvanovaRP@ya.ru");
-    fillBirthdayForm();
-    fillAddress2Form("Lvovskaya Street, 15b");
-    fillPhone2Form("7472304");
+    ContactsForm(new Contacts("Dr of Ph", "OSEU", "Lvovskaya Street, 15", "7472304", "0966514669", "skyLena1@ya.ru", "EVIvanovaRP@ya.ru", "Lvovskaya Street, 15b", "7472304"));
     submitCreationContact();
+  }
+
+  private void ContactsForm(Contacts contact) {
+    fillFMLForm(new FMLname("Elena", "Vasilievna", "Voskresenskaya"));
+    fillTitleForm(contact.getDr_of_ph());
+    fillCompanyForm(contact.getOseu());
+    fillAddressForm(contact.getAddress());
+    fillHomePhoneForm(contact.getHomephone());
+    fillMobileForm(contact.getMobile());
+    fillEmailForm(contact.getEmail());
+    fillEmail2Form(contact.getEmail2());
+    fillBirthdayForm();
+    fillAddress2Form(contact.getAddress2());
+    fillPhone2Form(contact.getPhone2());
   }
 
   private void submitCreationContact() {
