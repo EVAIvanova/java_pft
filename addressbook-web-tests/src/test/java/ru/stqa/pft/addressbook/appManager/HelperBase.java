@@ -19,7 +19,10 @@ public class HelperBase {
     click(locator);
     wd.findElement(locator).clear();
     wd.findElement(locator).sendKeys(text);
+
   }
+
+
   public boolean isAlertPresent() {
     try {
       wd.switchTo().alert();
@@ -27,5 +30,9 @@ public class HelperBase {
     } catch (NoAlertPresentException e) {
       return false;
     }
+  }
+
+  protected boolean isSelected(By xpath) {
+    return wd.findElement(xpath).isSelected();
   }
 }
