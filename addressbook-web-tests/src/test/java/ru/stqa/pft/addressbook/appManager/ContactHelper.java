@@ -2,7 +2,7 @@ package ru.stqa.pft.addressbook.appManager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import ru.stqa.pft.addressbook.Contacts;
+import ru.stqa.pft.addressbook.model.Contacts;
 
 public class ContactHelper extends HelperBase{
 
