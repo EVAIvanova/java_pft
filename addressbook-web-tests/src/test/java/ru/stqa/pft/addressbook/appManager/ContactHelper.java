@@ -100,4 +100,12 @@ public class ContactHelper extends HelperBase{
   public void sendEmailContacts() {
     click(By.xpath("//div[@id='content']/form[2]/div[1]/input"));
   }
+
+  public void editContact() {
+    click(By.xpath("//table[@id='maintable']/tbody/tr[5]/td[8]/a/img"));
+  }
+
+  public void submitContactEdit() {
+    click(By.xpath("//div[@id='content']/form[1]/input[22]"));
+  }
 }
