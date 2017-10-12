@@ -84,4 +84,20 @@ public class ContactHelper extends HelperBase{
     type(By.name("middlename"),middlename);
     type(By.name("lastname"),lastname);
      }
+
+  public void selectContacts(String numberContact) {
+    if (!isSelected(By.id(numberContact))) {
+      click(By.id(numberContact));
+    }
+  }
+
+
+  public void deleteContacts() {
+    click(By.xpath("//div[@id='content']/form[2]/div[2]/input"));
+
+  }
+
+  public void sendEmailContacts() {
+    click(By.xpath("//div[@id='content']/form[2]/div[1]/input"));
+  }
 }
