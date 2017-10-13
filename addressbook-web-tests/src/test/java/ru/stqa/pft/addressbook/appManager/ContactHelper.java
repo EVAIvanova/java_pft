@@ -85,10 +85,9 @@ public class ContactHelper extends HelperBase{
     type(By.name("lastname"),lastname);
      }
 
-  public void selectContacts(String numberContact) {
-    if (!isSelected(By.id(numberContact))) {
-      click(By.id(numberContact));
-    }
+  public void selectContacts() {
+     click (By.name ("selected[]"));
+
   }
 
 

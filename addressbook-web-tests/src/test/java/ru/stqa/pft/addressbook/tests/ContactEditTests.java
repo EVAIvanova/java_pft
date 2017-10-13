@@ -8,7 +8,7 @@ public class ContactEditTests extends TestBase {
   public void testContactEdit() {
 
     app.getNavigationHelper().gotoHomePage();
-    app.getContactHelper().selectContacts("8");
+    app.getContactHelper().selectContacts();
     app.getContactHelper().editContact ();
     app.getContactHelper().submitContactEdit();
     app.getNavigationHelper().gotoHomePage();

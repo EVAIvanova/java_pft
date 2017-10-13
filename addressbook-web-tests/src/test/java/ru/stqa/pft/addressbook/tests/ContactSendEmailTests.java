@@ -8,7 +8,7 @@ public class ContactSendEmailTests extends TestBase{
   public void testContactSendEmail () {
 
     app.getNavigationHelper().gotoHomePage();
-    app.getContactHelper().selectContacts("5");
+    app.getContactHelper().selectContacts();
     app.getContactHelper().sendEmailContacts();
   }
 
