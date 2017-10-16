@@ -1,12 +1,13 @@
 package ru.stqa.pft.addressbook.appManager;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import ru.stqa.pft.addressbook.model.Contacts;
 
 public class ContactHelper extends HelperBase{
 
-  public ContactHelper(FirefoxDriver wd) {
+  public ContactHelper(WebDriver wd) {
     super(wd);}
 
 
@@ -101,7 +102,7 @@ public class ContactHelper extends HelperBase{
   }
 
   public void editContact() {
-    click(By.xpath("//table[@id='maintable']/tbody/tr[5]/td[8]/a/img"));
+    click(By.xpath("//div/div[4]/form[2]/table/tbody/tr[2]/td[8]/a/img"));
   }
 
   public void submitContactEdit() {
@@ -109,7 +110,7 @@ public class ContactHelper extends HelperBase{
   }
 
   public void detailContact() {
-    click(By.xpath("//table[@id='maintable']/tbody/tr[4]/td[7]/a/img"));
+    click(By.xpath("//div/div[4]/form[2]/table/tbody/tr[2]/td[7]/a/img"));
   }
 
   public void modifyContact() {
