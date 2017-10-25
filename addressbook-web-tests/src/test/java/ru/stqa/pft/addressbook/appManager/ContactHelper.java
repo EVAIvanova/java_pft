@@ -6,12 +6,11 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.Contacts;
 
-public class ContactHelper extends HelperBase{
+public class ContactHelper extends HelperBase {
 
   public ContactHelper(WebDriver wd) {
-    super(wd);}
-
-
+    super(wd);
+  }
 
 
   public void ContactsForm(Contacts contact, boolean creation) {
@@ -28,73 +27,74 @@ public class ContactHelper extends HelperBase{
     if (creation) {
       new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contact.getGroup());
     } else {
-      Assert.assertFalse(isElementPresent(By.name("new_group"))); }
+      Assert.assertFalse(isElementPresent(By.name("new_group")));
+    }
 
     fillAddress2Form(contact.getAddress2());
     fillPhone2Form(contact.getPhone2());
   }
 
   public void submitCreationContact() {
-   click(By.xpath("//div[@id='content']/form/input[21]"));
-     }
+    click(By.xpath("//div[@id='content']/form/input[21]"));
+  }
 
   public void fillPhone2Form(String phone2) {
-    type(By.name("phone2"),phone2);
+    type(By.name("phone2"), phone2);
 
   }
 
   public void fillAddress2Form(String address2) {
-    type (By.name("address2"),address2);
+    type(By.name("address2"), address2);
 
   }
 
   public void fillBirthdayForm(Contacts contact)
-          //String bday,String bmonth,String byear)
+  //String bday,String bmonth,String byear)
 
   {
 
     new Select(wd.findElement((By.name("bday")))).selectByVisibleText(contact.getBirthday());
     new Select(wd.findElement((By.name("bmonth")))).selectByVisibleText(contact.getBirthmonth());
-    type(By.name("byear"),contact.getBirthyear());
-     }
+    type(By.name("byear"), contact.getBirthyear());
+  }
 
   public void fillEmail2Form(String email2) {
-    type(By.name("email2"),email2);
+    type(By.name("email2"), email2);
 
   }
 
   public void fillEmailForm(String email) {
-    type(By.name("email"),email);
-         }
+    type(By.name("email"), email);
+  }
 
   public void fillMobileForm(String mobile) {
-    type(By.name("mobile"),mobile);
-        }
+    type(By.name("mobile"), mobile);
+  }
 
   public void fillHomePhoneForm(String homephone) {
-    type(By.name("home"),homephone);
-      }
+    type(By.name("home"), homephone);
+  }
 
   public void fillAddressForm(String address) {
-   type(By.name("address"),address);
-      }
+    type(By.name("address"), address);
+  }
 
   public void fillCompanyForm(String company) {
-   type(By.name("company"),company);
-      }
+    type(By.name("company"), company);
+  }
 
   public void fillTitleForm(String title) {
-    type(By.name("title"),title);
-     }
+    type(By.name("title"), title);
+  }
 
   public void fillFMLForm(String firstname, String middlename, String lastname) {
-    type(By.name("firstname"),firstname);
-    type(By.name("middlename"),middlename);
-    type(By.name("lastname"),lastname);
-     }
+    type(By.name("firstname"), firstname);
+    type(By.name("middlename"), middlename);
+    type(By.name("lastname"), lastname);
+  }
 
   public void selectContacts() {
-     click (By.name ("selected[]"));
+    click(By.name("selected[]"));
 
   }
 
@@ -124,4 +124,24 @@ public class ContactHelper extends HelperBase{
     click(By.name("modifiy"));
   }
 
+  public void gotoNewContactCreationPage() {
+    if (isElementPresent(By.name("firstname"))
+            && wd.findElement(By.name("firstname")).getText().equals("FIRSTNAME")) {
+      return;
+    } else {
+      wd.findElement(By.linkText("ADD_NEW")).click();
+    }
+  }
+
+  public void createContact(Contacts contact, boolean b) {
+    gotoNewContactCreationPage();
+    ContactsForm(contact, b);
+    submitCreationContact();
+  }
+
+  public boolean isThereAContact() {
+    return isElementPresent(By.name("selected[]"));
+  }
 }
+
+

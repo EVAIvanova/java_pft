@@ -21,13 +21,6 @@ public class NavigationHelper extends HelperBase {
     }
   }
 
-  public void gotoNewContactCreationPage() {
-    if (isElementPresent(By.name ("firstname"))
-            && wd.findElement(By.name ("firstname")).getText().equals("FIRSTNAME") )  {
-        return;
-    } else {
-    wd.findElement(By.linkText("ADD_NEW")).click(); }
-  }
 
   public void gotoHomePage() {
 
