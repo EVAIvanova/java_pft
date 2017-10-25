@@ -10,11 +10,7 @@ public class ContactCreationTests extends TestBase {
   public void ContactCreationTests() {
 
     app.getNavigationHelper().gotoHomePage();
-    app.getNavigationHelper().gotoGroupPage();
-    if (!app.getGroupHelper().isThereAGroup()) {
-      app.getGroupHelper().createGroup(new GroupData("Test1", null, null));
-    }
-    app.getContactHelper().createContact(new Contacts("Elena", "Vasilievna", "Voskresenskaya", "Dr of Ph", "OSEU", "Lvovskaya Street, 15", "7472304", "0966514669", "skyLena1@ya.ru", "EVIvanovaRP@ya.ru", "23", "SEPTEMBER", "2016", "Test1", "Lvovskaya Street, 15b", "7472304"), true);
+    app.getContactHelper().createContact(new Contacts("Elena", "Vasilievna", "Voskresenskaya", "Dr of Ph", "OSEU", "Lvovskaya Street, 15", "7472304", "0966514669", "skyLena1@ya.ru", "EVIvanovaRP@ya.ru", "23", "SEPTEMBER", "2016", "[NONE]", "Lvovskaya Street, 15b", "7472304"), true);
 
   }
 
