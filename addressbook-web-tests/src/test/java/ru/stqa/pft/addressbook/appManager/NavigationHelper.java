@@ -2,25 +2,39 @@ package ru.stqa.pft.addressbook.appManager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class NavigationHelper extends HelperBase {
 
 
-
   public NavigationHelper(WebDriver wd) {
-    super (wd);
+    super(wd);
   }
 
   public void gotoGroupPage() {
-    click(By.linkText("GROUPS"));
+
+    if (isElementPresent(By.tagName("h1"))
+            && wd.findElement(By.tagName("h1")).getText().equals("Groups")
+            && isElementPresent(By.name("new"))) {
+      return;
+    } else {
+      click(By.linkText("GROUPS"));
+    }
   }
 
   public void gotoNewContactCreationPage() {
-    wd.findElement(By.linkText("ADD_NEW")).click();
+    if (isElementPresent(By.name ("firstname"))
+            && wd.findElement(By.name ("firstname")).getText().equals("FIRSTNAME") )  {
+        return;
+    } else {
+    wd.findElement(By.linkText("ADD_NEW")).click(); }
   }
 
   public void gotoHomePage() {
-    wd.findElement(By.linkText("HOME")).click();
+
+    if (isElementPresent(By.id("maintable"))) {
+      return;
+    } else {
+      wd.findElement(By.linkText("HOME")).click();
+    }
   }
 }
