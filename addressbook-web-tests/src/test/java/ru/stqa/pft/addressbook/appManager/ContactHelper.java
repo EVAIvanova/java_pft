@@ -2,7 +2,8 @@ package ru.stqa.pft.addressbook.appManager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.Contacts;
 
 public class ContactHelper extends HelperBase{
@@ -13,7 +14,7 @@ public class ContactHelper extends HelperBase{
 
 
 
-  public void ContactsForm(Contacts contact) {
+  public void ContactsForm(Contacts contact, boolean creation) {
     fillFMLForm(contact.getFirstname(), contact.getMiddlename(), contact.getLastname());
     fillTitleForm(contact.getDr_of_ph());
     fillCompanyForm(contact.getOseu());
@@ -22,7 +23,13 @@ public class ContactHelper extends HelperBase{
     fillMobileForm(contact.getMobile());
     fillEmailForm(contact.getEmail());
     fillEmail2Form(contact.getEmail2());
-    fillBirthdayForm();
+    fillBirthdayForm(contact);
+
+    if (creation) {
+      new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contact.getGroup());
+    } else {
+      Assert.assertFalse(isElementPresent(By.name("new_group"))); }
+
     fillAddress2Form(contact.getAddress2());
     fillPhone2Form(contact.getPhone2());
   }
@@ -41,14 +48,14 @@ public class ContactHelper extends HelperBase{
 
   }
 
-  public void fillBirthdayForm() {
-    if (!isSelected(By.xpath("//div[@id='content']/form/select[1]//option[25]"))) {
-      click(By.xpath("//div[@id='content']/form/select[1]//option[25]"));
-          }
-    if (!isSelected(By.xpath("//div[@id='content']/form/select[2]//option[10]"))) {
-      click(By.xpath("//div[@id='content']/form/select[2]//option[10]"));
-    }
-   type(By.name("byear"),"1980");
+  public void fillBirthdayForm(Contacts contact)
+          //String bday,String bmonth,String byear)
+
+  {
+
+    new Select(wd.findElement((By.name("bday")))).selectByVisibleText(contact.getBirthday());
+    new Select(wd.findElement((By.name("bmonth")))).selectByVisibleText(contact.getBirthmonth());
+    type(By.name("byear"),contact.getBirthyear());
      }
 
   public void fillEmail2Form(String email2) {
