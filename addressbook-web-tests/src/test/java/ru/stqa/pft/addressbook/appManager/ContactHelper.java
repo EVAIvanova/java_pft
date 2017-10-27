@@ -93,9 +93,8 @@ public class ContactHelper extends HelperBase {
     type(By.name("lastname"), lastname);
   }
 
-  public void selectContacts() {
-    click(By.name("selected[]"));
-
+  public void selectContacts(int index) {
+    wd.findElements(By.name("selected[]")).get(index).click();
   }
 
 
