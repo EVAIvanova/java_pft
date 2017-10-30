@@ -2,9 +2,13 @@ package ru.stqa.pft.addressbook.appManager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.Contacts;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContactHelper extends HelperBase {
 
@@ -145,6 +149,37 @@ public class ContactHelper extends HelperBase {
   public int getContactCount() {
     return wd.findElements(By.name("selected[]")).size();
   }
+
+  public List<Contacts> getContactList() {
+    List<Contacts> contacts = new ArrayList<Contacts>();
+    List<WebElement> strings = wd.findElements(By.cssSelector("tr"));
+    int sizeStrings = strings.size() - 1;
+    if (sizeStrings == 0) {
+      return contacts;
+    }
+    List<WebElement> name = wd.findElements(By.cssSelector("td"));
+    int sizeName = name.size();
+    int n = sizeName / sizeStrings;
+    int i = 0;
+    List<String> fields = new ArrayList<String>();
+    for (WebElement namei : name) {
+
+      if (i < n - 1) {
+        String field = namei.getText();
+        fields.add(field);
+        i++;
+      } else {
+        Contacts contact = new Contacts(fields.get(2), null, fields.get(1), null, null, fields.get(3), fields.get(5), null, fields.get(4), null, null, null, null, null, null, null);
+        contacts.add(contact);
+        fields.clear();
+        i = 0;
+      }
+    }
+    return contacts;
+  }
+
+
 }
+
 
 
