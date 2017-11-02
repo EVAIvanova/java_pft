@@ -40,7 +40,7 @@ public class Contacts {
     this.phone2 = phone2;
   }
   public Contacts(String firstname, String middlename, String lastname, String dr_of_ph, String oseu, String address, String homephone, String mobile, String email, String email2, String birthday, String birthmonth, String birthyear,String group, String address2, String phone2) {
-    this.id = 0;
+    this.id = Integer.MAX_VALUE;
     this.firstname = firstname;
     this.middlename = middlename;
     this.lastname = lastname;
@@ -133,21 +133,19 @@ public class Contacts {
 
     Contacts contacts = (Contacts) o;
 
-    if (id != contacts.id) return false;
     if (firstname != null ? !firstname.equals(contacts.firstname) : contacts.firstname != null) return false;
     if (lastname != null ? !lastname.equals(contacts.lastname) : contacts.lastname != null) return false;
     if (address != null ? !address.equals(contacts.address) : contacts.address != null) return false;
-    if (homephone != null ? !homephone.equals(contacts.homephone) : contacts.homephone != null) return false;
+    if (mobile != null ? !mobile.equals(contacts.mobile) : contacts.mobile != null) return false;
     return email != null ? email.equals(contacts.email) : contacts.email == null;
   }
 
   @Override
   public int hashCode() {
-    int result = id;
-    result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
+    int result = firstname != null ? firstname.hashCode() : 0;
     result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
     result = 31 * result + (address != null ? address.hashCode() : 0);
-    result = 31 * result + (homephone != null ? homephone.hashCode() : 0);
+    result = 31 * result + (mobile != null ? mobile.hashCode() : 0);
     result = 31 * result + (email != null ? email.hashCode() : 0);
     return result;
   }
