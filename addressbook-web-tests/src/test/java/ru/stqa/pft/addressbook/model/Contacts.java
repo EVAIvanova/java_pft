@@ -1,6 +1,7 @@
 package ru.stqa.pft.addressbook.model;
 
 public class Contacts {
+  private int id;
   private final String firstname;
   private final String middlename;
   private final String lastname;
@@ -19,7 +20,8 @@ public class Contacts {
   private final String address2;
   private final String phone2;
 
-  public Contacts(String firstname, String middlename, String lastname, String dr_of_ph, String oseu, String address, String homephone, String mobile, String email, String email2, String birthday, String birthmonth, String birthyear,String group, String address2, String phone2) {
+  public Contacts(int id, String firstname, String middlename, String lastname, String dr_of_ph, String oseu, String address, String homephone, String mobile, String email, String email2, String birthday, String birthmonth, String birthyear,String group, String address2, String phone2) {
+    this.id = id;
     this.firstname = firstname;
     this.middlename = middlename;
     this.lastname = lastname;
@@ -37,6 +39,28 @@ public class Contacts {
     this.address2 = address2;
     this.phone2 = phone2;
   }
+  public Contacts(String firstname, String middlename, String lastname, String dr_of_ph, String oseu, String address, String homephone, String mobile, String email, String email2, String birthday, String birthmonth, String birthyear,String group, String address2, String phone2) {
+    this.id = 0;
+    this.firstname = firstname;
+    this.middlename = middlename;
+    this.lastname = lastname;
+    this.dr_of_ph = dr_of_ph;
+    this.oseu = oseu;
+    this.address = address;
+    this.homephone = homephone;
+    this.mobile = mobile;
+    this.email = email;
+    this.email2 = email2;
+    this.birthday = birthday;
+    this.birthmonth = birthmonth;
+    this.birthyear = birthyear;
+    this.group = group;
+    this.address2 = address2;
+    this.phone2 = phone2;
+  }
+
+  public int getId() {    return id;  }
+
   public String getFirstname() {
     return firstname;
   }
@@ -98,6 +122,10 @@ public class Contacts {
     return birthyear;
   }
 
+  public void setId(int id) {
+    this.id = id;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -105,6 +133,7 @@ public class Contacts {
 
     Contacts contacts = (Contacts) o;
 
+    if (id != contacts.id) return false;
     if (firstname != null ? !firstname.equals(contacts.firstname) : contacts.firstname != null) return false;
     if (lastname != null ? !lastname.equals(contacts.lastname) : contacts.lastname != null) return false;
     if (address != null ? !address.equals(contacts.address) : contacts.address != null) return false;
@@ -114,7 +143,8 @@ public class Contacts {
 
   @Override
   public int hashCode() {
-    int result = firstname != null ? firstname.hashCode() : 0;
+    int result = id;
+    result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
     result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
     result = 31 * result + (address != null ? address.hashCode() : 0);
     result = 31 * result + (homephone != null ? homephone.hashCode() : 0);
@@ -122,9 +152,11 @@ public class Contacts {
     return result;
   }
 
+  @Override
   public String toString() {
     return "Contacts{" +
-            "firstname='" + firstname + '\'' +
+            "id='" + id + '\'' +
+            ", firstname='" + firstname + '\'' +
             ", lastname='" + lastname + '\'' +
             ", address='" + address + '\'' +
             ", homephone='" + homephone + '\'' +

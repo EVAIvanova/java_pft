@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
 
+import java.util.HashSet;
 import java.util.List;
 
 public class ContactDeletionTests extends TestBase {
@@ -15,7 +16,7 @@ public class ContactDeletionTests extends TestBase {
     app.getNavigationHelper().gotoHomePage();
 
       if (! app.getContactHelper().isThereAContact()) {
-      app.getContactHelper().createContact(new Contacts("Elena", "Vasilievna", "Voskresenskaya", "Dr of Ph", "OSEU", "Lvovskaya Street, 15", "7472304", "0966514669", "skyLena1@ya.ru", "EVIvanovaRP@ya.ru", "23","SEPTEMBER","2016","Test1", "Lvovskaya Street, 15b","7472304"),true);
+      app.getContactHelper().createContact(new Contacts("Elena", "Vasilievna", "Voskresenskaya", "Dr of Ph", "OSEU", "Lvovskaya Street, 15", "7472304", null, "skyLena1@ya.ru", null, "23","SEPTEMBER","2016","Test1", "Lvovskaya Street, 15b",null),true);
     }
     List<Contacts> before = app.getContactHelper().getContactList();
     app.getContactHelper().selectContacts(before.size()-1);
@@ -25,7 +26,8 @@ public class ContactDeletionTests extends TestBase {
     Assert.assertEquals(after.size(),before.size()-1);
 
     before.remove(before.size()-1);
-    Assert.assertEquals(before,after);
+
+    Assert.assertEquals(new HashSet<Object>(before),new HashSet<Object>(after));
 
   }
 

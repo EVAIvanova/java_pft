@@ -111,16 +111,18 @@ public class ContactHelper extends HelperBase {
     click(By.xpath("//div[@id='content']/form[2]/div[1]/input"));
   }
 
-  public void editContact() {
-    click(By.xpath("//div/div[4]/form[2]/table/tbody/tr[2]/td[8]/a/img"));
+  public void editContact(int id) {
+
+    wd.findElement(By.cssSelector("a[href='edit.php?id="+id+"']")).click();
+
   }
 
   public void submitContactEdit() {
     click(By.xpath("//div[@id='content']/form[1]/input[22]"));
   }
 
-  public void detailContact() {
-    click(By.xpath("//div/div[4]/form[2]/table/tbody/tr[2]/td[7]/a/img"));
+  public void detailContact(int id) {
+    wd.findElement(By.cssSelector("a[href='view.php?id="+id+"']")).click();
   }
 
   public void modifyContact() {
@@ -154,7 +156,9 @@ public class ContactHelper extends HelperBase {
     List<Contacts> contacts = new ArrayList<Contacts>();
     List<WebElement> strings = wd.findElements(By.cssSelector("tr"));
     int sizeStrings = strings.size() - 1;
-    if (sizeStrings == 0) {
+    int idContact = 0;
+
+     if (sizeStrings == 0) {
       return contacts;
     }
     List<WebElement> name = wd.findElements(By.cssSelector("td"));
@@ -165,11 +169,15 @@ public class ContactHelper extends HelperBase {
     for (WebElement namei : name) {
 
       if (i < n - 1) {
+        if (i==0) { 
+          idContact = Integer.parseInt(namei.findElement(By.tagName("input")).getAttribute("value"));
+        }
         String field = namei.getText();
         fields.add(field);
         i++;
+        
       } else {
-        Contacts contact = new Contacts(fields.get(2), null, fields.get(1), null, null, fields.get(3), fields.get(5), null, fields.get(4), null, null, null, null, null, null, null);
+        Contacts contact = new Contacts(idContact, fields.get(2), null, fields.get(1), null, null, fields.get(3), fields.get(5), null, fields.get(4), null, null, null, null, null, null, null);
         contacts.add(contact);
         fields.clear();
         i = 0;
