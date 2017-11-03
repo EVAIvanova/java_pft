@@ -18,15 +18,10 @@ public class ContactHelper extends HelperBase {
 
 
   public void ContactsForm(Contacts contact, boolean creation) {
-    fillFMLForm(contact.getFirstname(), contact.getMiddlename(), contact.getLastname());
-    fillTitleForm(contact.getDr_of_ph());
-    fillCompanyForm(contact.getOseu());
+    fillFMLForm(contact.getFirstname(), contact.getLastname());
     fillAddressForm(contact.getAddress());
-    fillHomePhoneForm(contact.getHomephone());
     fillMobileForm(contact.getMobile());
     fillEmailForm(contact.getEmail());
-    fillEmail2Form(contact.getEmail2());
-    fillBirthdayForm(contact);
 
     if (creation) {
       new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contact.getGroup());
@@ -34,37 +29,11 @@ public class ContactHelper extends HelperBase {
       Assert.assertFalse(isElementPresent(By.name("new_group")));
     }
 
-    fillAddress2Form(contact.getAddress2());
-    fillPhone2Form(contact.getPhone2());
+
   }
 
   public void submitCreationContact() {
     click(By.xpath("//div[@id='content']/form/input[21]"));
-  }
-
-  public void fillPhone2Form(String phone2) {
-    type(By.name("phone2"), phone2);
-
-  }
-
-  public void fillAddress2Form(String address2) {
-    type(By.name("address2"), address2);
-
-  }
-
-  public void fillBirthdayForm(Contacts contact)
-  //String bday,String bmonth,String byear)
-
-  {
-
-    new Select(wd.findElement((By.name("bday")))).selectByVisibleText(contact.getBirthday());
-    new Select(wd.findElement((By.name("bmonth")))).selectByVisibleText(contact.getBirthmonth());
-    type(By.name("byear"), contact.getBirthyear());
-  }
-
-  public void fillEmail2Form(String email2) {
-    type(By.name("email2"), email2);
-
   }
 
   public void fillEmailForm(String email) {
@@ -75,25 +44,14 @@ public class ContactHelper extends HelperBase {
     type(By.name("mobile"), mobile);
   }
 
-  public void fillHomePhoneForm(String homephone) {
-    type(By.name("home"), homephone);
-  }
-
   public void fillAddressForm(String address) {
     type(By.name("address"), address);
   }
 
-  public void fillCompanyForm(String company) {
-    type(By.name("company"), company);
-  }
 
-  public void fillTitleForm(String title) {
-    type(By.name("title"), title);
-  }
 
-  public void fillFMLForm(String firstname, String middlename, String lastname) {
+  public void fillFMLForm(String firstname, String lastname) {
     type(By.name("firstname"), firstname);
-    type(By.name("middlename"), middlename);
     type(By.name("lastname"), lastname);
   }
 
@@ -121,11 +79,26 @@ public class ContactHelper extends HelperBase {
     click(By.xpath("//div[@id='content']/form[1]/input[22]"));
   }
 
+  public void modify (List<Contacts> before, int index, Contacts contact, boolean creation) {
+    selectContacts(index);
+    editContact (before.get(index).getId());
+    ContactsForm(contact,creation);
+    submitContactEdit();
+      }
+
   public void detailContact(int id) {
     wd.findElement(By.cssSelector("a[href='view.php?id="+id+"']")).click();
   }
 
-  public void modifyContact() {
+  public void detail(List<Contacts> before, int index, Contacts contact, boolean creation) {
+    selectContacts(index);
+    detailContact (before.get(index).getId());
+    clickModify();
+    ContactsForm(contact,creation);
+    submitContactEdit();
+  }
+
+  public void clickModify() {
     click(By.name("modifiy"));
   }
 
@@ -138,12 +111,15 @@ public class ContactHelper extends HelperBase {
     }
   }
 
-  public void createContact(Contacts contact, boolean b) {
+  public void create(Contacts contact, boolean b) {
     gotoNewContactCreationPage();
     ContactsForm(contact, b);
     submitCreationContact();
   }
-
+  public void delete(int index) {
+    selectContacts(index );
+    deleteContacts();
+  }
   public boolean isThereAContact() {
     return isElementPresent(By.name("selected[]"));
   }
@@ -152,7 +128,7 @@ public class ContactHelper extends HelperBase {
     return wd.findElements(By.name("selected[]")).size();
   }
 
-  public List<Contacts> getContactList() {
+  public List<Contacts> list() {
     List<Contacts> contacts = new ArrayList<Contacts>();
     List<WebElement> strings = wd.findElements(By.cssSelector("tr"));
     int sizeStrings = strings.size() - 1;
@@ -177,7 +153,9 @@ public class ContactHelper extends HelperBase {
         i++;
         
       } else {
-        Contacts contact = new Contacts(idContact, fields.get(2), null, fields.get(1), null, null, fields.get(3), fields.get(5), null, fields.get(4), null, null, null, null, null, null, null);
+        Contacts contact = new Contacts()
+                .withId(idContact).withFirstname(fields.get(2)).withLastname(fields.get(1))
+                .withAddress(fields.get(3)).withMobile(fields.get(5)).withEmail(fields.get(4));
         contacts.add(contact);
         fields.clear();
         i = 0;

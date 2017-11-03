@@ -1,26 +1,33 @@
 package ru.stqa.pft.addressbook.tests;
 
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.Contacts;
-import ru.stqa.pft.addressbook.model.GroupData;
 
 import java.util.List;
 
-public class ContactSendEmailTests extends TestBase{
+public class ContactSendEmailTests extends TestBase {
 
-  @Test
-  public void testContactSendEmail () {
+  @BeforeMethod
+  public void ensurePrecondition() {
 
-    app.getNavigationHelper().gotoHomePage();
-    if (! app.getContactHelper().isThereAContact()) {
-      app.getContactHelper().createContact(new Contacts("Elena", "Vasilievna", "Voskresenskaya", "Dr of Ph", "OSEU", "Lvovskaya Street, 15", "7472304", "0966514669", "skyLena1@ya.ru", "EVIvanovaRP@ya.ru", "23","SEPTEMBER","2016","Test1", "Lvovskaya Street, 15b","7472304"),true);
+    app.goTo().HomePage();
+    if (app.contact().list().size() == 0) {
+      app.contact().create(new Contacts()
+              .withFirstname("Elena").withLastname("Voskresenskaya")
+              .withAddress("Lvovskaya Street, 15").withMobile("7472304").withEmail("skyLena1@ya.ru")
+              .withGroup("[NONE]"), true);
     }
-    List<Contacts> before = app.getContactHelper().getContactList();
-    app.getContactHelper().selectContacts(before.size()-1);
-    app.getContactHelper().sendEmailContacts();
-    List<Contacts> after = app.getContactHelper().getContactList();
-    Assert.assertEquals(after.size(),before.size());
+  }
+  @Test
+  public void testContactSendEmail() {
+
+    List<Contacts> before = app.contact().list();
+    app.contact().selectContacts(before.size() - 1);
+    app.contact().sendEmailContacts();
+    List<Contacts> after = app.contact().list();
+    Assert.assertEquals(after.size(), before.size());
   }
 
 }
