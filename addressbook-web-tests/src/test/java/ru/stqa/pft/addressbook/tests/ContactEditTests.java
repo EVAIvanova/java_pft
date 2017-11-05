@@ -1,12 +1,13 @@
 package ru.stqa.pft.addressbook.tests;
 
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.MatcherAssert;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import ru.stqa.pft.addressbook.model.Contactdata;
 import ru.stqa.pft.addressbook.model.Contacts;
 
-import java.util.Comparator;
-import java.util.List;
 import java.util.Set;
 
 public class ContactEditTests extends TestBase {
@@ -15,8 +16,8 @@ public class ContactEditTests extends TestBase {
   public void ensurePrecondition() {
 
     app.goTo().HomePage();
-    if (app.contact().listС().size() == 0) {
-      app.contact().createС(new Contacts()
+    if (app.contact().allС().size() == 0) {
+      app.contact().createС(new Contactdata()
               .withFirstname("Elena").withLastname("Voskresenskaya")
               .withAddress("Lvovskaya Street, 15").withMobile("7472304").withEmail("skyLena1@ya.ru")
               .withGroup("[NONE]"), true);
@@ -25,20 +26,17 @@ public class ContactEditTests extends TestBase {
 
   @Test
   public void testContactEdit() {
-    Set<Contacts> before = app.contact().allС();
-    Contacts modifiedContact = before.iterator().next();
-    Contacts contact = new Contacts().withId(modifiedContact.getId())
+    Contacts before = app.contact().allС();
+    Contactdata modifiedContact = before.iterator().next();
+    Contactdata contact = new Contactdata().withId(modifiedContact.getId())
             .withFirstname("Elena").withLastname("Voskresenskaya")
             .withAddress("Lvovskaya Street, 15").withMobile("7472304").withEmail("skyLena1@ya.ru")
             .withGroup("[NONE]");
     app.contact().modifyС(contact, false);
     app.goTo().HomePage();
-    Set<Contacts> after = app.contact().allС();
+    Contacts after = app.contact().allС();
     Assert.assertEquals(after.size(), before.size());
-
-    before.remove(modifiedContact);
-    before.add(contact);
-    Assert.assertEquals(before, after);
+    MatcherAssert.assertThat(after, CoreMatchers.equalTo(before.withOut(modifiedContact).withAdded(contact)));
   }
 
 

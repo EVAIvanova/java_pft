@@ -1,13 +1,18 @@
 package ru.stqa.pft.addressbook.tests;
 
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.MatcherAssert;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import ru.stqa.pft.addressbook.model.Contactdata;
 import ru.stqa.pft.addressbook.model.Contacts;
 
-import java.util.Comparator;
-import java.util.List;
 import java.util.Set;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.testng.Assert.assertEquals;
 
 public class ContactDetailTests extends TestBase {
 
@@ -15,8 +20,8 @@ public class ContactDetailTests extends TestBase {
   public void ensurePrecondition() {
 
     app.goTo().HomePage();
-    if (app.contact().listС().size() == 0) {
-      app.contact().createС(new Contacts()
+    if (app.contact().allС().size() == 0) {
+      app.contact().createС(new Contactdata()
               .withFirstname("Elena").withLastname("Voskresenskaya")
               .withAddress("Lvovskaya Street, 15").withMobile("7472304").withEmail("skyLena1@ya.ru")
               .withGroup("[NONE]"), true);
@@ -26,21 +31,18 @@ public class ContactDetailTests extends TestBase {
   @Test
   public void testContactDetail() {
 
-    Set<Contacts> before = app.contact().allС();
-    Contacts detailedContact = before.iterator().next();
+    Contacts before = app.contact().allС();
+    Contactdata detailedContact = before.iterator().next();
     int index = before.size() - 1;
-    Contacts contact = new Contacts().withId(detailedContact.getId())
+    Contactdata contact = new Contactdata().withId(detailedContact.getId())
             .withFirstname("Elena").withLastname("Voskresenskaya")
             .withAddress("Lvovskaya Street, 15").withMobile("7472304").withEmail("skyLena1@ya.ru")
             .withGroup("[NONE]");
     app.contact().detail( contact, false);
     app.goTo().HomePage();
-    List<Contacts> after = app.contact().listС();
-    Assert.assertEquals(after.size(), before.size());
-
-    before.remove(detailedContact);
-    before.add(contact);
-    Assert.assertEquals(before, after);
+    Contacts after = app.contact().allС();
+    assertEquals(after.size(), before.size());
+    assertThat(after, equalTo(before.withOut(detailedContact).withAdded(contact)));
   }
 
 
