@@ -13,8 +13,8 @@ public class ContactSendEmailTests extends TestBase {
   public void ensurePrecondition() {
 
     app.goTo().HomePage();
-    if (app.contact().list().size() == 0) {
-      app.contact().create(new Contacts()
+    if (app.contact().listС().size() == 0) {
+      app.contact().createС(new Contacts()
               .withFirstname("Elena").withLastname("Voskresenskaya")
               .withAddress("Lvovskaya Street, 15").withMobile("7472304").withEmail("skyLena1@ya.ru")
               .withGroup("[NONE]"), true);
@@ -23,10 +23,10 @@ public class ContactSendEmailTests extends TestBase {
   @Test
   public void testContactSendEmail() {
 
-    List<Contacts> before = app.contact().list();
+    List<Contacts> before = app.contact().listС();
     app.contact().selectContacts(before.size() - 1);
     app.contact().sendEmailContacts();
-    List<Contacts> after = app.contact().list();
+    List<Contacts> after = app.contact().listС();
     Assert.assertEquals(after.size(), before.size());
   }
 

@@ -7,6 +7,7 @@ import ru.stqa.pft.addressbook.model.Contacts;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ContactDeletionTests extends TestBase {
 
@@ -14,8 +15,8 @@ public class ContactDeletionTests extends TestBase {
   public void ensurePrecondition1() {
 
     app.goTo().HomePage();
-    if (app.contact().list().size() == 0) {
-      app.contact().create(new Contacts()
+    if (app.contact().listС().size() == 0) {
+      app.contact().createС(new Contacts()
               .withFirstname("Elena").withLastname("Voskresenskaya")
               .withAddress("Lvovskaya Street, 15").withMobile("7472304").withEmail("skyLena1@ya.ru")
               .withGroup("[NONE]"), true);
@@ -25,14 +26,14 @@ public class ContactDeletionTests extends TestBase {
   @Test
   public void testContactDeletion() {
 
-    List<Contacts> before = app.contact().list();
-    int index = before.size() - 1;
-    app.contact().delete(index);
+    Set<Contacts> before = app.contact().allС();
+    Contacts deletedContact = before.iterator().next();
+    app.contact().delete(deletedContact);
     app.getSessionHelper().closeDeletionWindow();
-    List<Contacts> after = app.contact().list();
+    Set<Contacts> after = app.contact().allС();
     Assert.assertEquals(after.size(), before.size() - 1);
 
-    before.remove(index);
+    before.remove(deletedContact);
     Assert.assertEquals(new HashSet<Object>(before), new HashSet<Object>(after));
 
   }

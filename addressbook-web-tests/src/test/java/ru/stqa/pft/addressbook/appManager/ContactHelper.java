@@ -8,7 +8,9 @@ import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.Contacts;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ContactHelper extends HelperBase {
 
@@ -59,6 +61,9 @@ public class ContactHelper extends HelperBase {
     wd.findElements(By.name("selected[]")).get(index).click();
   }
 
+  public void selectContactsById(int id) {
+    wd.findElement(By.cssSelector("input[value='"+id+"']")).click();
+  }
 
   public void deleteContacts() {
     click(By.xpath("//div[@id='content']/form[2]/div[2]/input"));
@@ -79,9 +84,9 @@ public class ContactHelper extends HelperBase {
     click(By.xpath("//div[@id='content']/form[1]/input[22]"));
   }
 
-  public void modify (List<Contacts> before, int index, Contacts contact, boolean creation) {
-    selectContacts(index);
-    editContact (before.get(index).getId());
+  public void modifyС( Contacts contact, boolean creation) {
+    selectContactsById(contact.getId());
+    editContact (contact.getId());
     ContactsForm(contact,creation);
     submitContactEdit();
       }
@@ -90,9 +95,9 @@ public class ContactHelper extends HelperBase {
     wd.findElement(By.cssSelector("a[href='view.php?id="+id+"']")).click();
   }
 
-  public void detail(List<Contacts> before, int index, Contacts contact, boolean creation) {
-    selectContacts(index);
-    detailContact (before.get(index).getId());
+  public void detail(Contacts contact, boolean creation) {
+    selectContactsById(contact.getId());
+    detailContact (contact.getId());
     clickModify();
     ContactsForm(contact,creation);
     submitContactEdit();
@@ -111,7 +116,7 @@ public class ContactHelper extends HelperBase {
     }
   }
 
-  public void create(Contacts contact, boolean b) {
+  public void createС(Contacts contact, boolean b) {
     gotoNewContactCreationPage();
     ContactsForm(contact, b);
     submitCreationContact();
@@ -120,6 +125,15 @@ public class ContactHelper extends HelperBase {
     selectContacts(index );
     deleteContacts();
   }
+
+  public void delete(Contacts deletedContact) {
+    selectContactsById (deletedContact.getId());
+    deleteContacts();
+  }
+
+
+
+
   public boolean isThereAContact() {
     return isElementPresent(By.name("selected[]"));
   }
@@ -128,7 +142,7 @@ public class ContactHelper extends HelperBase {
     return wd.findElements(By.name("selected[]")).size();
   }
 
-  public List<Contacts> list() {
+  public List<Contacts> listС() {
     List<Contacts> contacts = new ArrayList<Contacts>();
     List<WebElement> strings = wd.findElements(By.cssSelector("tr"));
     int sizeStrings = strings.size() - 1;
@@ -152,6 +166,42 @@ public class ContactHelper extends HelperBase {
         fields.add(field);
         i++;
         
+      } else {
+        Contacts contact = new Contacts()
+                .withId(idContact).withFirstname(fields.get(2)).withLastname(fields.get(1))
+                .withAddress(fields.get(3)).withMobile(fields.get(5)).withEmail(fields.get(4));
+        contacts.add(contact);
+        fields.clear();
+        i = 0;
+      }
+    }
+    return contacts;
+  }
+
+  public Set<Contacts> allС() {
+    Set<Contacts> contacts = new HashSet<Contacts>();
+    List<WebElement> strings = wd.findElements(By.cssSelector("tr"));
+    int sizeStrings = strings.size() - 1;
+    int idContact = 0;
+
+    if (sizeStrings == 0) {
+      return contacts;
+    }
+    List<WebElement> name = wd.findElements(By.cssSelector("td"));
+    int sizeName = name.size();
+    int n = sizeName / sizeStrings;
+    int i = 0;
+    List<String> fields = new ArrayList<String>();
+    for (WebElement namei : name) {
+
+      if (i < n - 1) {
+        if (i==0) {
+          idContact = Integer.parseInt(namei.findElement(By.tagName("input")).getAttribute("value"));
+        }
+        String field = namei.getText();
+        fields.add(field);
+        i++;
+
       } else {
         Contacts contact = new Contacts()
                 .withId(idContact).withFirstname(fields.get(2)).withLastname(fields.get(1))
