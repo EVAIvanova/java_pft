@@ -5,8 +5,11 @@ public class Contactdata {
   private String firstname;
   private String lastname;
   private String address;
-  private String mobile;
+  private String homePhone;
+  private String mobilePhone;
+  private String workPhone;
   private String email;
+
   private String group;
 
   public Contactdata withId(int id) {
@@ -28,8 +31,18 @@ public class Contactdata {
     return this;
   }
 
-  public Contactdata withMobile(String mobile) {
-    this.mobile = mobile;
+  public Contactdata withMobilePhone(String mobilePhone) {
+    this.mobilePhone = mobilePhone;
+    return this;
+  }
+
+  public Contactdata withHomePhone(String homePhone) {
+    this.homePhone = homePhone;
+    return this;
+  }
+
+  public Contactdata withWorkPhone(String workPhone) {
+    this.workPhone = workPhone;
     return this;
   }
 
@@ -55,7 +68,11 @@ public class Contactdata {
     return address;
   }
 
-  public String getMobile() { return mobile;  }
+  public String getHomePhone() { return homePhone;  }
+
+  public String getMobilePhone() { return mobilePhone;  }
+
+  public String getWorkPhone() { return workPhone;  }
 
   public String getEmail() {
     return email;
@@ -71,14 +88,14 @@ public class Contactdata {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
 
-    Contactdata contacts = (Contactdata) o;
+    Contactdata that = (Contactdata) o;
 
-    if (id != contacts.id) return false;
-    if (firstname != null ? !firstname.equals(contacts.firstname) : contacts.firstname != null) return false;
-    if (lastname != null ? !lastname.equals(contacts.lastname) : contacts.lastname != null) return false;
-    if (address != null ? !address.equals(contacts.address) : contacts.address != null) return false;
-    if (mobile != null ? !mobile.equals(contacts.mobile) : contacts.mobile != null) return false;
-    return email != null ? email.equals(contacts.email) : contacts.email == null;
+    if (id != that.id) return false;
+    if (firstname != null ? !firstname.equals(that.firstname) : that.firstname != null) return false;
+    if (lastname != null ? !lastname.equals(that.lastname) : that.lastname != null) return false;
+    if (homePhone != null ? !homePhone.equals(that.homePhone) : that.homePhone != null) return false;
+    if (mobilePhone != null ? !mobilePhone.equals(that.mobilePhone) : that.mobilePhone != null) return false;
+    return workPhone != null ? workPhone.equals(that.workPhone) : that.workPhone == null;
   }
 
   @Override
@@ -86,9 +103,9 @@ public class Contactdata {
     int result = id;
     result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
     result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
-    result = 31 * result + (address != null ? address.hashCode() : 0);
-    result = 31 * result + (mobile != null ? mobile.hashCode() : 0);
-    result = 31 * result + (email != null ? email.hashCode() : 0);
+    result = 31 * result + (homePhone != null ? homePhone.hashCode() : 0);
+    result = 31 * result + (mobilePhone != null ? mobilePhone.hashCode() : 0);
+    result = 31 * result + (workPhone != null ? workPhone.hashCode() : 0);
     return result;
   }
 
@@ -98,9 +115,9 @@ public class Contactdata {
             "id=" + id +
             ", firstname='" + firstname + '\'' +
             ", lastname='" + lastname + '\'' +
-            ", address='" + address + '\'' +
-            ", mobile='" + mobile + '\'' +
-            ", email='" + email + '\'' +
+            ", homePhone='" + homePhone + '\'' +
+            ", mobilePhone='" + mobilePhone + '\'' +
+            ", workPhone='" + workPhone + '\'' +
             '}';
   }
 }
