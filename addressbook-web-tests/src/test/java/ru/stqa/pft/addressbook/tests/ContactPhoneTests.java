@@ -13,7 +13,7 @@ public class ContactPhoneTests extends TestBase{
     if (app.contact().allС().size() == 0) {
       app.contact().createС(new Contactdata()
               .withFirstname("Elena").withLastname("Voskresenskaya")
-              .withAddress("Lvovskaya Street, 15").withMobile("7472304").withEmail("skyLena1@ya.ru")
+              .withAddress("Lvovskaya Street, 15").withMobilePhone("7472304").withEmail("skyLena1@ya.ru")
               .withGroup("[NONE]"), true);
     }
   }

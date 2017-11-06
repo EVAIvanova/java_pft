@@ -23,7 +23,7 @@ public class ContactHelper extends HelperBase {
   public void ContactsForm(Contactdata contact, boolean creation) {
     fillFMLForm(contact.getFirstname(), contact.getLastname());
     fillAddressForm(contact.getAddress());
-    fillMobileForm(contact.getMobile());
+    fillMobileForm(contact.getMobilePhone());
     fillEmailForm(contact.getEmail());
 
     if (creation) {
@@ -162,38 +162,20 @@ public class ContactHelper extends HelperBase {
       return new Contacts(contactCache);
     }
     contactCache = new Contacts();
-    List<WebElement> strings = wd.findElements(By.cssSelector("tr"));
-    int sizeStrings = strings.size() - 1;
-    int idContact = 0;
-
-    if (sizeStrings == 0) {
-      return new Contacts(contactCache);
-    }
-    List<WebElement> name = wd.findElements(By.cssSelector("td"));
-    int sizeName = name.size();
-    int n = sizeName / sizeStrings;
-    int i = 0;
-    List<String> fields = new ArrayList<String>();
-    for (WebElement namei : name) {
-
-      if (i < n - 1) {
-        if (i==0) {
-          idContact = Integer.parseInt(namei.findElement(By.tagName("input")).getAttribute("value"));
-        }
-        String field = namei.getText();
-        fields.add(field);
-        i++;
-
-      } else {
-        Contactdata contact = new Contactdata()
-                .withId(idContact).withFirstname(fields.get(2)).withLastname(fields.get(1))
-                .withAddress(fields.get(3)).withMobile(fields.get(5)).withEmail(fields.get(4));
-        contactCache.add(contact);
-        fields.clear();
-        i = 0;
+    List<WebElement> rows = wd.findElements(By.name("entry"));
+    for (WebElement row : rows) {
+    List<WebElement> cells = row.findElements(By.tagName("td"));
+    int id = Integer.parseInt(cells.get(0).findElement(By.tagName("input")).getAttribute("value"));
+      String lastname = cells.get(1).getText();
+      String firstname = cells.get(2).getText();
+      String address = cells.get(3).getText();
+      String email = cells.get(4).getText();
+      String mobile = cells.get(5).getText();
+      contactCache.add (new Contactdata().withId(id).withFirstname(firstname).withLastname(lastname)
+      .withAddress(address).withMobilePhone(mobile).withEmail(email));
       }
-    }
-    return new Contacts(contactCache);
+      return new Contacts(contactCache);
+
   }
 
 
@@ -201,12 +183,14 @@ public class ContactHelper extends HelperBase {
   initContactModificationById (contact.getId());
   String firstname = wd. findElement(By.name("firstname")).getAttribute("value");
   String lastname = wd. findElement(By.name("lastname")).getAttribute("value");
+  String address = wd. findElement(By.name("adress")).getAttribute("value");
+  String email = wd. findElement(By.name("email")).getAttribute("value");
   String home = wd. findElement(By.name("home")).getAttribute("value");
   String mobile = wd. findElement(By.name("mobile")).getAttribute("value");
   String work = wd. findElement(By.name("work")).getAttribute("value");
   wd.navigate().back();
   return new Contactdata().withId(contact.getId()).withFirstname(firstname).withLastname(lastname)
-          .withHomePhone(home).withMobilePhone(mobile).withWorkPhone(work);
+          .withAddress(address).withEmail(email).withHomePhone(home).withMobilePhone(mobile).withWorkPhone(work);
   }
 
 
