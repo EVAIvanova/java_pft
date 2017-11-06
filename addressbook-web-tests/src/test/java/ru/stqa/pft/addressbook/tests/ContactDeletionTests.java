@@ -1,15 +1,9 @@
 package ru.stqa.pft.addressbook.tests;
 
-import org.hamcrest.CoreMatchers;
-import org.hamcrest.junit.MatcherAssert;
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.Contactdata;
 import ru.stqa.pft.addressbook.model.Contacts;
-
-import java.util.HashSet;
-import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.junit.MatcherAssert.assertThat;
@@ -36,8 +30,8 @@ public class ContactDeletionTests extends TestBase {
     Contactdata deletedContact = before.iterator().next();
     app.contact().delete(deletedContact);
     app.getSessionHelper().closeDeletionWindow();
+    org.hamcrest.MatcherAssert.assertThat (app.contact().count(), equalTo(before.size() - 1));
     Contacts after = app.contact().allС();
-    assertEquals(after.size(), before.size() - 1);
     assertThat(after, equalTo (before.withOut(deletedContact)));
   }
 
