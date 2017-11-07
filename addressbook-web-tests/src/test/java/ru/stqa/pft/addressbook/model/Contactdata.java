@@ -9,8 +9,13 @@ public class Contactdata {
   private String mobilePhone;
   private String workPhone;
   private String email;
+  private String email2;
+  private String email3;
   private String group;
   private String allphones;
+  private String allemails;
+
+
   public Contactdata withId(int id) {
     this.id = id;
     return this;
@@ -50,6 +55,21 @@ public class Contactdata {
     return this;
   }
 
+  public Contactdata withEmail2(String email2) {
+    this.email2 = email2;
+    return this;
+  }
+
+  public Contactdata withEmail3(String email3) {
+    this.email3 = email3;
+    return this;
+  }
+
+  public Contactdata withAllemails(String allemails) {
+    this.allemails = allemails;
+    return this;
+  }
+
   public Contactdata withGroup(String group) {
     this.group = group;
     return this;
@@ -79,9 +99,19 @@ public class Contactdata {
 
   public String getWorkPhone() { return workPhone;  }
 
+  public String getEmail2() {
+    return email2;
+  }
+
+  public String getEmail3() {
+    return email3;
+  }
+
   public String getEmail() {
     return email;
   }
+
+  public String getAllemails() { return allemails;  }
 
   public String getGroup() {
     return group;
@@ -99,7 +129,10 @@ public class Contactdata {
             ", mobilePhone='" + mobilePhone + '\'' +
             ", workPhone='" + workPhone + '\'' +
             ", email='" + email + '\'' +
+            ", email2='" + email2 + '\'' +
+            ", email3='" + email3 + '\'' +
             ", allphones='" + allphones + '\'' +
+            ", allemails='" + allemails + '\'' +
             '}';
   }
 
@@ -118,7 +151,10 @@ public class Contactdata {
     if (mobilePhone != null ? !mobilePhone.equals(that.mobilePhone) : that.mobilePhone != null) return false;
     if (workPhone != null ? !workPhone.equals(that.workPhone) : that.workPhone != null) return false;
     if (email != null ? !email.equals(that.email) : that.email != null) return false;
-    return allphones != null ? allphones.equals(that.allphones) : that.allphones == null;
+    if (email2 != null ? !email2.equals(that.email2) : that.email2 != null) return false;
+    if (email3 != null ? !email3.equals(that.email3) : that.email3 != null) return false;
+    if (allphones != null ? !allphones.equals(that.allphones) : that.allphones != null) return false;
+    return allemails != null ? allemails.equals(that.allemails) : that.allemails == null;
   }
 
   @Override
@@ -131,9 +167,10 @@ public class Contactdata {
     result = 31 * result + (mobilePhone != null ? mobilePhone.hashCode() : 0);
     result = 31 * result + (workPhone != null ? workPhone.hashCode() : 0);
     result = 31 * result + (email != null ? email.hashCode() : 0);
+    result = 31 * result + (email2 != null ? email2.hashCode() : 0);
+    result = 31 * result + (email3 != null ? email3.hashCode() : 0);
     result = 31 * result + (allphones != null ? allphones.hashCode() : 0);
+    result = 31 * result + (allemails != null ? allemails.hashCode() : 0);
     return result;
   }
-
-
 }
