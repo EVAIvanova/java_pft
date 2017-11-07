@@ -9,9 +9,8 @@ public class Contactdata {
   private String mobilePhone;
   private String workPhone;
   private String email;
-
   private String group;
-
+  private String allphones;
   public Contactdata withId(int id) {
     this.id = id;
     return this;
@@ -55,6 +54,12 @@ public class Contactdata {
     this.group = group;
     return this;
   }
+  public Contactdata withAllPhones(String allphones) {
+    this.allphones = allphones;
+    return this;
+  }
+
+  public String getAllphones() { return allphones;  }
 
   public int getId() {    return id;  }
 
@@ -84,6 +89,21 @@ public class Contactdata {
 
 
   @Override
+  public String toString() {
+    return "Contactdata{" +
+            "id=" + id +
+            ", firstname='" + firstname + '\'' +
+            ", lastname='" + lastname + '\'' +
+            ", address='" + address + '\'' +
+            ", homePhone='" + homePhone + '\'' +
+            ", mobilePhone='" + mobilePhone + '\'' +
+            ", workPhone='" + workPhone + '\'' +
+            ", email='" + email + '\'' +
+            ", allphones='" + allphones + '\'' +
+            '}';
+  }
+
+  @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
@@ -97,7 +117,8 @@ public class Contactdata {
     if (homePhone != null ? !homePhone.equals(that.homePhone) : that.homePhone != null) return false;
     if (mobilePhone != null ? !mobilePhone.equals(that.mobilePhone) : that.mobilePhone != null) return false;
     if (workPhone != null ? !workPhone.equals(that.workPhone) : that.workPhone != null) return false;
-    return email != null ? email.equals(that.email) : that.email == null;
+    if (email != null ? !email.equals(that.email) : that.email != null) return false;
+    return allphones != null ? allphones.equals(that.allphones) : that.allphones == null;
   }
 
   @Override
@@ -110,20 +131,9 @@ public class Contactdata {
     result = 31 * result + (mobilePhone != null ? mobilePhone.hashCode() : 0);
     result = 31 * result + (workPhone != null ? workPhone.hashCode() : 0);
     result = 31 * result + (email != null ? email.hashCode() : 0);
+    result = 31 * result + (allphones != null ? allphones.hashCode() : 0);
     return result;
   }
 
-  @Override
-  public String toString() {
-    return "Contactdata{" +
-            "id=" + id +
-            ", firstname='" + firstname + '\'' +
-            ", lastname='" + lastname + '\'' +
-            ", address='" + address + '\'' +
-            ", homePhone='" + homePhone + '\'' +
-            ", mobilePhone='" + mobilePhone + '\'' +
-            ", workPhone='" + workPhone + '\'' +
-            ", email='" + email + '\'' +
-            '}';
-  }
+
 }
