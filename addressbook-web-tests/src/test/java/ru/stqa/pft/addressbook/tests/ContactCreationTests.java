@@ -15,7 +15,8 @@ public class ContactCreationTests extends TestBase {
     app.goTo().HomePage();
     Contacts before = app.contact().allС();
     Contactdata contact = new Contactdata().withFirstname("Elena").withLastname("Voskresenskaya")
-            .withAddress("Lvovskaya Street, 15").withMobilePhone("7472304").withEmail("skyLena1@ya.ru")
+            .withAddress("Lvovskaya Street, 15").withHomePhone("7472304").withMobilePhone("0966514669")
+            .withWorkPhone("353748").withEmail("skyLena1@ya.ru")
             .withGroup("[NONE]");
     app.contact().createС(contact, true);
     app.goTo().HomePage();
@@ -31,7 +32,8 @@ public class ContactCreationTests extends TestBase {
     app.goTo().HomePage();
     Contacts before = app.contact().allС();
     Contactdata contact = new Contactdata().withFirstname("Elena'").withLastname("Voskresenskaya")
-            .withAddress("Lvovskaya Street, 15").withMobilePhone("7472304").withEmail("skyLena1@ya.ru")
+            .withAddress("Lvovskaya Street, 15").withHomePhone("7472304").withMobilePhone("0966514669")
+            .withWorkPhone("353748").withEmail("skyLena1@ya.ru")
             .withGroup("[NONE]");
     app.contact().createС(contact, true);
     app.goTo().HomePage();

@@ -28,7 +28,8 @@ public class ContactEditTests extends TestBase {
     Contactdata modifiedContact = before.iterator().next();
     Contactdata contact = new Contactdata().withId(modifiedContact.getId())
             .withFirstname("Elena").withLastname("Voskresenskaya")
-            .withAddress("Lvovskaya Street, 15").withMobilePhone("7472304").withEmail("skyLena1@ya.ru")
+            .withAddress("Lvovskaya Street, 15").withHomePhone("7472304").withMobilePhone("0966514669")
+            .withWorkPhone("353748").withEmail("skyLena1@ya.ru")
             .withGroup("[NONE]");
     app.contact().modifyС(contact, false);
     app.goTo().HomePage();
