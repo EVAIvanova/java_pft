@@ -1,5 +1,8 @@
 package ru.stqa.pft.addressbook.generators;
 
+import com.beust.jcommander.JCommander;
+import com.beust.jcommander.Parameter;
+import com.beust.jcommander.ParameterException;
 import ru.stqa.pft.addressbook.model.Contactdata;
 import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.tests.TestBase;
@@ -13,18 +16,33 @@ import java.util.List;
 
 
 
-public class ContactDataGeneretor extends TestBase{
+public class ContactDataGeneretor {
+
+  @Parameter(names = "-c", description = "Group count")
+  public int count;
+
+  @Parameter (names = "-f", description = "Target file")
+  public String file;
 
   public static void main (String [] args) throws IOException {
-    int count = Integer.parseInt(args [0]);
-    File file = new File(args[1]);
-
-    List<Contactdata> contacts = generateContacts (count);
-    save (contacts,file);
+    ContactDataGeneretor generator = new ContactDataGeneretor();
+    JCommander jCommander = new JCommander(generator);
+    try {
+    jCommander.parse(args);
+    } catch (ParameterException ex){
+      jCommander.usage();
+      return;
+    }
+    generator.run();
 
   }
 
-  private static void save(List<Contactdata> contacts, File file) throws IOException {
+  private void run() throws IOException {
+    List<Contactdata> contacts = generateContacts (count);
+    save (contacts,new File (file));
+  }
+
+  private void save(List<Contactdata> contacts, File file) throws IOException {
     System.out.println(new File (".").getAbsolutePath());
     Writer writer = new FileWriter(file);
     for (Contactdata contact : contacts) {
@@ -34,7 +52,7 @@ public class ContactDataGeneretor extends TestBase{
     writer.close();
   }
 
-  private static List<Contactdata> generateContacts(int count) {
+  private  List<Contactdata> generateContacts(int count) {
     List<Contactdata> contacts = new ArrayList<Contactdata>();
     for (int i=0; i < count; i++) {
       contacts.add (new Contactdata().withFirstname(String.format("Ivan%s",i)).withLastname(String.format("Ivano%s",i))
