@@ -22,6 +22,7 @@ public class ContactHelper extends HelperBase {
 
   public void ContactsForm(Contactdata contact, boolean creation) {
     fillFMLForm(contact.getFirstname(), contact.getLastname());
+    attach(By.name("photo"), contact.getPhoto());
     fillAddressForm(contact.getAddress());
     fillHomeForm(contact.getHomePhone());
     fillMobileForm(contact.getMobilePhone());
