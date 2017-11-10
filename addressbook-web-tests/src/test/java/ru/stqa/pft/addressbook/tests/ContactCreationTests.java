@@ -5,7 +5,7 @@ import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.Contactdata;
 import ru.stqa.pft.addressbook.model.Contacts;
 
-import java.io.File;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -16,14 +16,16 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class ContactCreationTests extends TestBase {
 
   @DataProvider
-  public Iterator<Object []> validContacts () {
+  public Iterator<Object []> validContacts () throws IOException {
     List<Object []> list = new ArrayList<Object[]>();
-    list.add(new Object[] {new Contactdata().withFirstname("Elena").withLastname("Voskresenskaya")
-            .withAddress("Lvovskaya, 15").withEmail("skyLena1@ya.ru").withMobilePhone("0966514669")});
-    list.add(new Object[] {new Contactdata().withFirstname("Ekaterina").withLastname("Ivanova")
-            .withAddress("Vilyamsa, 46").withEmail("skyKatya1@ya.ru").withMobilePhone("0986514669")});
-    list.add(new Object[] {new Contactdata().withFirstname("Aleksandra").withLastname("Ivanova")
-            .withAddress("Glushko, 3").withEmail("skyAlex1@ya.ru").withMobilePhone("0666514669")});
+    BufferedReader reader = new BufferedReader(new FileReader(new File ("src/test/resources/contact.csv")));
+    String line = reader.readLine();
+    while (line != null) {
+      String[] split = line.split(";");
+      list.add (new Object[] {new Contactdata().withFirstname(split[0]).withLastname(split[1]).withAddress(split[2])
+      .withEmail(split[3]).withMobilePhone(split[4]).withGroup(split[5])});
+      line = reader.readLine();
+    }
     return list.iterator();
   }
 
@@ -32,6 +34,7 @@ public class ContactCreationTests extends TestBase {
       app.goTo().HomePage();
       Contacts before = app.contact().allС();
       File photo = new File("src/test/resources/WIN_20171006_09_52_45_Pro.jpg");
+      String a = contact.getGroup();
       app.contact().createС(contact, true);
       app.goTo().HomePage();
       assertThat(app.contact().count(), equalTo(before.size() + 1));
