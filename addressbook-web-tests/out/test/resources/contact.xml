@@ -1,0 +1,26 @@
+<list>
+  <contact>
+    <firstname>Ivan0</firstname>
+    <lastname>Ivano0</lastname>
+    <address>Lvovskaya,0</address>
+    <group>Test0</group>
+    <allphones>472300</allphones>
+    <allemails>skyLena0</allemails>
+  </contact>
+  <contact>
+    <firstname>Ivan1</firstname>
+    <lastname>Ivano1</lastname>
+    <address>Lvovskaya,1</address>
+    <group>Test1</group>
+    <allphones>472301</allphones>
+    <allemails>skyLena1</allemails>
+  </contact>
+  <contact>
+    <firstname>Ivan2</firstname>
+    <lastname>Ivano2</lastname>
+    <address>Lvovskaya,2</address>
+    <group>Test2</group>
+    <allphones>472302</allphones>
+    <allemails>skyLena2</allemails>
+  </contact>
+</list>
