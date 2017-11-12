@@ -1,0 +1,26 @@
+[
+  {
+    "firstname": "Ivan0",
+    "lastname": "Ivano0",
+    "address": "Lvovskaya,0",
+    "group": "Test0",
+    "allphones": "472300",
+    "allemails": "skyLena0"
+  },
+  {
+    "firstname": "Ivan1",
+    "lastname": "Ivano1",
+    "address": "Lvovskaya,1",
+    "group": "Test1",
+    "allphones": "472301",
+    "allemails": "skyLena1"
+  },
+  {
+    "firstname": "Ivan2",
+    "lastname": "Ivano2",
+    "address": "Lvovskaya,2",
+    "group": "Test2",
+    "allphones": "472302",
+    "allemails": "skyLena2"
+  }
+]
