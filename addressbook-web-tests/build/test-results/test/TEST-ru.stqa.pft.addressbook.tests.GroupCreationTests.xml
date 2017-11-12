@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ru.stqa.pft.addressbook.tests.GroupCreationTests" tests="3" skipped="0" failures="0" errors="0" timestamp="2017-11-12T19:52:28" hostname="DESKTOP-4QDHNLS" time="252.877">
+  <properties/>
+  <testcase name="testGroupCreation[0](GroupData{name='Test 0', id='2147483647'})" classname="ru.stqa.pft.addressbook.tests.GroupCreationTests" time="98.858"/>
+  <testcase name="testGroupCreation[1](GroupData{name='Test 1', id='2147483647'})" classname="ru.stqa.pft.addressbook.tests.GroupCreationTests" time="79.363"/>
+  <testcase name="testGroupCreation[2](GroupData{name='Test 2', id='2147483647'})" classname="ru.stqa.pft.addressbook.tests.GroupCreationTests" time="74.652"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[1510516390375	addons.productaddons	INFO	sending request to: https://aus5.mozilla.org/update/3/GMP/52.4.0/20170921064520/WINNT_x86_64-msvc-x64/ru/esr/Windows_NT%2010.0.0.0%20(x64)/default/default/update.xml
+1510516391186	addons.productaddons	INFO	Completed downloading document
+1510516392059	addons.productaddons	INFO	downloadXHR File download. status=200
+1510516392203	addons.productaddons	INFO	Downloaded file will be saved to C:\Users\8BAD~1\AppData\Local\Temp\tmpaddon-da7112
+1510516398223	addons.productaddons	INFO	downloadXHR File download. status=200
+1510516398266	addons.productaddons	INFO	Downloaded file will be saved to C:\Users\8BAD~1\AppData\Local\Temp\tmpaddon-b823a1
+]]></system-err>
+</testsuite>
