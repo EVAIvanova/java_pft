@@ -15,12 +15,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.junit.MatcherAssert.assertThat;
 
 public class GroupCreationTests extends TestBase {
+
 
   @DataProvider
   public Iterator<Object[]> validGroupsFromXml() throws IOException {
@@ -63,8 +65,10 @@ public class GroupCreationTests extends TestBase {
   }
 
     @Test(dataProvider = "validGroupsFromJson")
+
   public void testGroupCreation(GroupData group) {
-    app.goTo().GroupPage();
+
+      app.goTo().GroupPage();
     Groups before = app.group().all();
 
     app.group().create(group);
