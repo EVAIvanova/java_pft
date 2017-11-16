@@ -12,6 +12,8 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.2'
     compile 'ch.qos.logback:logback-classic:1.2.1'
     compile 'mysql:mysql-connector-java:5.1.44'
+    compile 'org.hibernate:hibernate-core:5.0.12.Final'
+
 }
 task testGroups (type: Test) {
     useTestNG() {
