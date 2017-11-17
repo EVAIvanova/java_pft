@@ -16,9 +16,8 @@ public class ContactEmailTests extends TestBase {
 
   @BeforeMethod
   public void ensurePrecondition1() {
-
-    app.goTo().HomePage();
-    if (app.contact().allС().size() == 0) {
+    if (app.db().contacts().size() == 0) {
+      app.goTo().HomePage();
       app.contact().createС(new Contactdata()
               .withFirstname("Elena").withLastname("Voskresenskaya")
               .withAddress("Lvovskaya Street, 15").withHomePhone("7472304").withMobilePhone("0966514669")
@@ -32,7 +31,8 @@ public class ContactEmailTests extends TestBase {
   public void testContactEmails() {
 
     app.goTo().HomePage();
-    Contactdata contact = app.contact().allС().iterator().next();
+    Contactdata contact = app.db().contacts().iterator().next();
+    app.goTo().HomePage();
     Contactdata contactInfoFromEditForm = app.contact().infoFromEditForm(contact);
     assertThat(contact.getAllemails(), equalTo(nergeEmails(contactInfoFromEditForm)));
   }

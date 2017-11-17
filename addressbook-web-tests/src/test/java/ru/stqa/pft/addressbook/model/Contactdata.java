@@ -5,10 +5,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import org.hibernate.annotations.Type;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.File;
 
 @XStreamAlias("contact")
@@ -36,38 +33,57 @@ public class Contactdata {
 
   @Expose
   @Column (name="home")
+  @Type(type = "text")
   private String homePhone;
 
   @Expose
   @Column (name="mobile")
+  @Type(type = "text")
   private String mobilePhone;
 
   @Expose
   @Column (name="work")
+  @Type(type = "text")
   private String workPhone;
 
   @Expose
   @Column (name="email")
+  @Type(type = "text")
   private String email;
   @Expose
+  @Column (name="email2")
+  @Type(type = "text")
   private String email2;
   @Expose
+  @Column (name="email3")
+  @Type(type = "text")
   private String email3;
   @Expose
+  @Transient
   private String group;
   @Expose
+  @Transient
   private String allphones;
   @Expose
+  @Transient
   private String allemails;
   @Expose
+  //@Column (name="photo")
+ // @Type(type = "text")
+  @Transient
   private File photo;
 
   public File getPhoto() {
     return photo;
+            //new File (photo);
   }
 
   public Contactdata withPhoto(File photo) {
-    this.photo = photo;
+   // File photo) {
+    this.photo =photo;
+            //photo.getPath();
+
+
     return this;
   }
 
@@ -201,6 +217,13 @@ public class Contactdata {
             ", firstname='" + firstname + '\'' +
             ", lastname='" + lastname + '\'' +
             ", address='" + address + '\'' +
+            ", homePhone='" + homePhone + '\'' +
+            ", mobilePhone='" + mobilePhone + '\'' +
+            ", workPhone='" + workPhone + '\'' +
+            ", email='" + email + '\'' +
+            ", email2='" + email2 + '\'' +
+            ", email3='" + email3 + '\'' +
+            ", photo='" + photo + '\'' +
             '}';
   }
 
