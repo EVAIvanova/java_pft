@@ -3,19 +3,17 @@ package ru.stqa.pft.addressbook.tests;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.Contactdata;
+import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.Groups;
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
-
-import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.junit.MatcherAssert.assertThat;
 
-public class ContactPhoneTests extends TestBase{
+public class AdditionContactToGroupTests extends TestBase {
 
   @BeforeMethod
-  public void ensurePreconditions () {
+  public void ensurePreconditions() {
     if (app.db().groups().size() == 0) {
       app.goTo().GroupPage();
       app.group().create(new GroupData().withName("Test1"));
@@ -25,7 +23,6 @@ public class ContactPhoneTests extends TestBase{
 
   @BeforeMethod
   public void ensurePrecondition1() {
-
     if (app.db().contacts().size() == 0) {
       app.goTo().HomePage();
       Groups groups = app.db().groups();
@@ -37,23 +34,37 @@ public class ContactPhoneTests extends TestBase{
     }
   }
 
-  @Test (enabled = false)
-  public void testContactPhones () {
+
+  @Test
+  public void testAdditionContactToGroup() {
+
     app.goTo().HomePage();
-    Contactdata contact = app.db().contacts().iterator().next();
+    Contacts contacts = app.db().contacts();
+    Contactdata contact = contacts.iterator().next();
+    Groups groups = app.db().groups();
+    GroupData group = groups.iterator().next();
+    Contacts before = group.getContacts();
+    contact = app.contact().contactForGroup(contacts, contact, before);
+
+    app.contact().additionToGroup(contact, group);
     app.goTo().HomePage();
-    Contactdata contactInfoFromEditForm = app.contact().infoFromEditForm(contact);
-    assertThat(contact.getAllphones(), equalTo(nergePhones(contactInfoFromEditForm)));
+    app.contact().selectGroupPage(group);
+    groups = app.db().groups();
+    group = groups.iterator().next();
+    Contacts after = group.getContacts();
+    assertThat(app.contact().count(), equalTo(before.size() + 1));
+    assertThat(after, equalTo(before
+            .withAdded(contact)));
+
+
   }
 
-  private String nergePhones(Contactdata contact) {
-   return Arrays.asList(contact.getHomePhone(),contact.getMobilePhone(),contact.getWorkPhone())
-           .stream().filter((s) -> !s.equals(""))
-           .map(ContactPhoneTests :: cleaned )
-           .collect(Collectors.joining("\n"));
-    }
 
-  public static String cleaned (String phone) {
-    return phone.replaceAll("\\s","").replaceAll("[-()]","");
-  }
+
+
+
+
 }
+
+
+

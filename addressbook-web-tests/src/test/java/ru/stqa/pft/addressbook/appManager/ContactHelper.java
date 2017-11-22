@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.Contactdata;
 import ru.stqa.pft.addressbook.model.Contacts;
+import ru.stqa.pft.addressbook.model.GroupData;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -30,7 +31,10 @@ public class ContactHelper extends HelperBase {
     fillEmailForm(contact.getEmail());
 
     if (creation) {
-      new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contact.getGroup());
+      if (contact.getGroups().size() > 0) {
+        Assert.assertTrue(contact.getGroups().size() == 1);
+        new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contact.getGroups().iterator().next().getName());
+      }
     } else {
       Assert.assertFalse(isElementPresent(By.name("new_group")));
     }
@@ -162,7 +166,11 @@ public class ContactHelper extends HelperBase {
   }
 
   public int count() {
-    return wd.findElements(By.name("selected[]")).size();
+    if (isElementPresent(By.name("selected[]")) == true) {
+    return wd.findElements(By.name("selected[]")).size();}
+    else {
+      return 0;
+    }
   }
 
   private Contacts contactCache = null;
@@ -208,6 +216,51 @@ public class ContactHelper extends HelperBase {
   }
 
 
+  public void submitAddToGroup() {
+    wd.findElement(By.name("add")).click();
+  }
+
+  public void selectGroup(GroupData group) {
+    new Select(wd.findElement(By.name("to_group"))).selectByVisibleText(group.getName());
+  }
+
+  public GroupData selectGroupPage(GroupData group) {
+   // String[] selectGroup = wd.findElement(By.xpath("//form[@id='right']")).getText().split("\n");
+         new Select(wd.findElement(By.name("group"))).selectByVisibleText(group.getName());
+      return group;
+    }
+
+
+  public Contactdata contactForGroup(Contacts contacts, Contactdata contact, Contacts before) {
+    Contacts contacts1 = new Contacts();
+    contacts1=contacts;
+    for (Contactdata contactBefore : before) {
+      for (Contactdata contactNoGroup : contacts) {
+        if (contactBefore.equals(contactNoGroup)) {
+          contacts1 = contacts1.withOut(contactBefore);
+          contact = contacts1.iterator().next();
+        }
+      }
+    }
+    return contact;
+  }
+
+  public void additionToGroup(Contactdata contact, GroupData group) {
+   selectContactsById(contact.getId());
+   selectGroup(group);
+   submitAddToGroup();
+    contactCache=null;
+  }
+
+  public void deleteContactFromGroup(Contactdata contact) {
+    selectContactsById (contact.getId());
+    deleteContactsFromGroup();
+    contactCache=null;
+  }
+
+  private void deleteContactsFromGroup() {
+    wd.findElement(By.cssSelector("input[value='DELETE']")).click();
+  }
 }
 
 

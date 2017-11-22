@@ -7,6 +7,8 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
 
 @XStreamAlias("contact")
 @Entity
@@ -15,52 +17,50 @@ public class Contactdata {
   @XStreamOmitField
 
   @Id
-  @Column (name="id")
+  @Column(name = "id")
   private int id = Integer.MAX_VALUE;
 
   @Expose
-  @Column (name="firstname")
+  @Column(name = "firstname")
   private String firstname;
 
   @Expose
-  @Column (name="lastname")
+  @Column(name = "lastname")
   private String lastname;
 
   @Expose
-  @Column (name="address")
+  @Column(name = "address")
   @Type(type = "text")
   private String address;
 
   @Expose
-  @Column (name="home")
+  @Column(name = "home")
   @Type(type = "text")
   private String homePhone;
 
   @Expose
-  @Column (name="mobile")
+  @Column(name = "mobile")
   @Type(type = "text")
   private String mobilePhone;
 
   @Expose
-  @Column (name="work")
+  @Column(name = "work")
   @Type(type = "text")
   private String workPhone;
 
   @Expose
-  @Column (name="email")
+  @Column(name = "email")
   @Type(type = "text")
   private String email;
   @Expose
-  @Column (name="email2")
+  @Column(name = "email2")
   @Type(type = "text")
   private String email2;
   @Expose
-  @Column (name="email3")
+  @Column(name = "email3")
   @Type(type = "text")
   private String email3;
-  @Expose
-  @Transient
-  private String group;
+
   @Expose
   @Transient
   private String allphones;
@@ -69,19 +69,28 @@ public class Contactdata {
   private String allemails;
   @Expose
   //@Column (name="photo")
- // @Type(type = "text")
+  // @Type(type = "text")
   @Transient
   private File photo;
 
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(name = "address_in_groups", joinColumns = @JoinColumn(name = "id"),
+          inverseJoinColumns = @JoinColumn(name = "group_id"))
+   private Set<GroupData> groups = new HashSet<GroupData>();
+
+
   public File getPhoto() {
     return photo;
-            //new File (photo);
+    //new File (photo);
   }
-
+  public Contactdata withGroups(Groups groups) {
+    this.groups = groups;
+    return this;
+  }
   public Contactdata withPhoto(File photo) {
-   // File photo) {
-    this.photo =photo;
-            //photo.getPath();
+    // File photo) {
+    this.photo = photo;
+    //photo.getPath();
 
 
     return this;
@@ -91,6 +100,7 @@ public class Contactdata {
     this.id = id;
     return this;
   }
+
   public Contactdata withFirstname(String firstname) {
     this.firstname = firstname;
     return this;
@@ -141,34 +151,45 @@ public class Contactdata {
     return this;
   }
 
-  public Contactdata withGroup(String group) {
-    this.group = group;
+
+  public Contactdata withAllPhones(String allphones) {
+    this.allphones = allphones;
     return this;
   }
- public Contactdata withAllPhones(String allphones) {
-  this.allphones = allphones;
-   return this;
+
+  public String getAllphones() {
+    return allphones;
   }
 
-  public String getAllphones() { return allphones;  }
+  public int getId() {
+    return id;
+  }
 
-  public int getId() {    return id;  }
+
 
   public String getFirstname() {
     return firstname;
   }
 
-  public String getLastname() {return lastname;  }
+  public String getLastname() {
+    return lastname;
+  }
 
   public String getAddress() {
     return address;
   }
 
-  public String getHomePhone() { return homePhone;  }
+  public String getHomePhone() {
+    return homePhone;
+  }
 
-  public String getMobilePhone() { return mobilePhone;  }
+  public String getMobilePhone() {
+    return mobilePhone;
+  }
 
-  public String getWorkPhone() { return workPhone;  }
+  public String getWorkPhone() {
+    return workPhone;
+  }
 
   public String getEmail2() {
     return email2;
@@ -182,10 +203,12 @@ public class Contactdata {
     return email;
   }
 
-  public String getAllemails() { return allemails;  }
+  public String getAllemails() {
+    return allemails;
+  }
 
-  public String getGroup() {
-    return group;
+  public Groups getGroups() {
+    return new Groups(groups);
   }
 
   @Override
@@ -217,14 +240,11 @@ public class Contactdata {
             ", firstname='" + firstname + '\'' +
             ", lastname='" + lastname + '\'' +
             ", address='" + address + '\'' +
-            ", homePhone='" + homePhone + '\'' +
-            ", mobilePhone='" + mobilePhone + '\'' +
-            ", workPhone='" + workPhone + '\'' +
-            ", email='" + email + '\'' +
-            ", email2='" + email2 + '\'' +
-            ", email3='" + email3 + '\'' +
-            ", photo='" + photo + '\'' +
             '}';
   }
 
+  public Contactdata inGroup(GroupData group) {
+    groups.add(group);
+    return this;
+  }
 }

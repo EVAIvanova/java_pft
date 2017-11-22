@@ -19,6 +19,7 @@ public class DbConnectionTest {
               DriverManager.getConnection("jdbc:mysql://localhost:3306/addressbook?user=root&password=");
       Statement st = conn.createStatement();
       Statement stC = conn.createStatement();
+      Statement stC_Gr = conn.createStatement();
       ResultSet rs = st.executeQuery("select group_id,group_name,group_header,group_footer from group_list");
       ResultSet rsC = stC.executeQuery("select id,firstname,lastname,address,home,mobile,work,email from addressbook");
       Contacts contacts = new Contacts();

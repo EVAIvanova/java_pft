@@ -3,10 +3,13 @@ package ru.stqa.pft.addressbook.tests;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.thoughtworks.xstream.XStream;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.Contactdata;
 import ru.stqa.pft.addressbook.model.Contacts;
+import ru.stqa.pft.addressbook.model.GroupData;
+import ru.stqa.pft.addressbook.model.Groups;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -50,15 +53,24 @@ public class ContactCreationTests extends TestBase {
     return contacts.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
    }
   }
+  @BeforeMethod
+  public void ensurePreconditions () {
+    if (app.db().groups().size() == 0) {
+      app.goTo().GroupPage();
+      app.group().create(new GroupData().withName("Test1"));
 
+    }
+  }
 
   @Test (dataProvider = "validContactsFromJson")
   public void ContactCreationTests(Contactdata contact) {
-      app.goTo().HomePage();
+      Groups groups = app.db().groups();
+       File photo = new File("src/test/resources/WIN_20171006_09_52_45_Pro.jpg");
+       Contactdata newContact = new Contactdata().withFirstname("Katya").withLastname("Ivanova").withPhoto(photo)
+               .inGroup(groups.iterator().next());
+       app.goTo().HomePage();
       Contacts before = app.db().contacts();
-      File photo = new File("src/test/resources/WIN_20171006_09_52_45_Pro.jpg");
-      String a = contact.getGroup();
-      app.contact().createС(contact, true);
+      app.contact().createС(newContact, true);
       app.goTo().HomePage();
       assertThat(app.contact().count(), equalTo(before.size() + 1));
       Contacts after = app.db().contacts();
@@ -69,18 +81,19 @@ public class ContactCreationTests extends TestBase {
 
   @Test (enabled = false)
   public void ContactBadCreationTests() {
-
+    Groups groups = app.db().groups();
     app.goTo().HomePage();
     Contacts before = app.db().contacts();
     Contactdata contact = new Contactdata().withFirstname("Elena'").withLastname("Voskresenskaya")
             .withAddress("Lvovskaya Street, 15").withHomePhone("7472304").withMobilePhone("0966514669")
             .withWorkPhone("353748").withEmail("skyLena1@ya.ru")
-            .withGroup("[NONE]");
+            .inGroup(groups.iterator().next());
     app.contact().createС(contact, true);
     app.goTo().HomePage();
     assertThat (app.contact().count(), equalTo(before.size()));
     Contacts after = app.db().contacts();
     assertThat (after, equalTo(before));
+    verifyContactsListInUi();
   }
 
   @Test (enabled = false)
