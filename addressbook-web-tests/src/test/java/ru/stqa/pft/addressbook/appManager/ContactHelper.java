@@ -8,6 +8,7 @@ import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.Contactdata;
 import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
+import ru.stqa.pft.addressbook.model.Groups;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -221,17 +222,21 @@ public class ContactHelper extends HelperBase {
   }
 
   public void selectGroup(GroupData group) {
-    new Select(wd.findElement(By.name("to_group"))).selectByVisibleText(group.getName());
+    new Select(wd.findElement(By.name("to_group"))).selectByVisibleText(group.withId(group.getId()).getName());
   }
 
   public GroupData selectGroupPage(GroupData group) {
    // String[] selectGroup = wd.findElement(By.xpath("//form[@id='right']")).getText().split("\n");
-         new Select(wd.findElement(By.name("group"))).selectByVisibleText(group.getName());
+         new Select(wd.findElement(By.name("group"))).selectByVisibleText(group.withId(group.getId()).getName());
       return group;
     }
+  public void selectGroupPage() {
 
+    new Select(wd.findElement(By.name("group"))).selectByVisibleText("[ALL]");
 
-  public Contactdata contactForGroup(Contacts contacts, Contactdata contact, Contacts before) {
+  }
+
+  public Contactdata contactForGroup(Groups groups, GroupData group, Contacts contacts, Contactdata contact, Contacts before) {
     Contacts contacts1 = new Contacts();
     contacts1=contacts;
     for (Contactdata contactBefore : before) {
@@ -259,7 +264,7 @@ public class ContactHelper extends HelperBase {
   }
 
   private void deleteContactsFromGroup() {
-    wd.findElement(By.cssSelector("input[value='DELETE']")).click();
+    wd.findElement(By.cssSelector("input[name='remove']")).click();
   }
 }
 

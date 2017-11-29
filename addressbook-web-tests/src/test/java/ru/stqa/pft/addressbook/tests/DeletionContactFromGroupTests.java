@@ -7,6 +7,11 @@ import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.Groups;
 
+import java.util.Collection;
+import java.util.Set;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.junit.MatcherAssert.assertThat;
 
@@ -54,9 +59,14 @@ public void testDeletionContactFromGroup(){
         app.contact().selectGroupPage(group);
         Contactdata contact=before.iterator().next();
         app.contact().deleteContactFromGroup(contact);
+        app.goTo().HomePage();
+        app.contact().selectGroupPage();
         app.contact().selectGroupPage(group);
         assertThat(app.contact().count(),equalTo(before.size()-1));
-        Contacts after=group.getContacts();
+        groups=app.db().groups();
+        Contacts contactFromGroup = app.contact().allС();
+        group = groups.iterator().next().withContact1(contactFromGroup);
+        Contacts after = group.getContacts();
         assertThat(after,equalTo(before.withOut(contact)));
 
         }

@@ -7,6 +7,8 @@ import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.Groups;
 
+import java.util.stream.Collectors;
+
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.junit.MatcherAssert.assertThat;
 
@@ -40,17 +42,58 @@ public class AdditionContactToGroupTests extends TestBase {
 
     app.goTo().HomePage();
     Contacts contacts = app.db().contacts();
-    Contactdata contact = contacts.iterator().next();
+    Contacts contactsi = contacts;
+    Contactdata contact = new Contactdata();
+    contact = null;
+    GroupData group = new GroupData();
     Groups groups = app.db().groups();
-    GroupData group = groups.iterator().next();
-    Contacts before = group.getContacts();
-    contact = app.contact().contactForGroup(contacts, contact, before);
-
+    Contacts before = new Contacts();
+    int j = 0;
+    for (GroupData groupi : groups) {
+      if (contact == null) {
+        before = groupi.getContacts();
+        Contacts beforei = before;
+        for (Contactdata contacti : contacts) {
+          int i = 0;
+          while ( beforei.size() != 0) {
+            Contactdata b = beforei.iterator().next();
+            if (contacti.equals(b)) {
+              beforei = beforei.withOut(b);
+              if (beforei.size() == 0) {i = 10;}
+              break;}
+             else {
+               i++;
+            }
+          }
+           if ((beforei.size() == 0) && (i == 0)) {
+            contact = contacti;
+            group = groupi;
+            break;
+          }
+        }
+        if ((j + 1) == groups.size()) {
+          app.goTo().GroupPage();
+          GroupData group1 = new GroupData().withName("Test" +  (j+2));
+          app.group().create(group1);
+          contact = contacts.iterator().next();
+          groups = app.db().groups();
+          group = group1.withId(groups.stream().mapToInt((g) -> g.getId()).max().getAsInt());
+          before = group.getContacts();
+        }
+        j++;
+      } else {
+        break;
+      }
+    }
+    app.goTo().HomePage();
     app.contact().additionToGroup(contact, group);
     app.goTo().HomePage();
     app.contact().selectGroupPage(group);
     groups = app.db().groups();
-    group = groups.iterator().next();
+    Contacts contactsFromGroup = app.contact().allС();
+    group = groups.iterator().next().withId(groups.stream().mapToInt((g) -> g.getId()).max()
+            .getAsInt()).withName(group.getName()).withFooter(group.getFooter())
+            .withHeader(group.getHeader()).withContact1(contactsFromGroup);
     Contacts after = group.getContacts();
     assertThat(app.contact().count(), equalTo(before.size() + 1));
     assertThat(after, equalTo(before
@@ -58,10 +101,6 @@ public class AdditionContactToGroupTests extends TestBase {
 
 
   }
-
-
-
-
 
 
 }
