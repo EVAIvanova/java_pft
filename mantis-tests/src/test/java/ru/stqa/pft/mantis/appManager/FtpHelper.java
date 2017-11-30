@@ -1,8 +1,11 @@
 package ru.stqa.pft.mantis.appManager;
 
+import org.apache.commons.net.ftp.FTPClient;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class FtpHelper {
 
@@ -15,7 +18,7 @@ public class FtpHelper {
     ftp = new FTPClient();
   }
 
-  public void upload (File file, String target, String backup) throws FileNotFoundException {
+  public void upload (File file, String target, String backup) throws IOException {
   ftp.connect(app.getProperty("ftp.host"));
   ftp.login(app.getProperty("ftp.login"),app.getProperty("ftp.password"));
   ftp.deleteFile(backup);
@@ -25,7 +28,7 @@ public class FtpHelper {
   ftp.disconnect();
   }
 
-  public void restore (String backup, String target) {
+  public void restore (String backup, String target) throws IOException {
     ftp.connect(app.getProperty("ftp.host"));
     ftp.login(app.getProperty("ftp.login"),app.getProperty("ftp.password"));
     ftp.deleteFile(target);
